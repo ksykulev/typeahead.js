@@ -807,8 +807,10 @@
                     suggestions = suggestions || [];
                     if (!canceled && rendered < that.limit) {
                         that.cancel = $.noop;
-                        rendered += suggestions.length;
-                        that._append(query, suggestions.slice(0, that.limit - rendered));
+                        var addable = that.limit - rendered;
+                        var added = Math.min(addable, suggestions.length);
+                        that._append(query, suggestions.slice(0, added));
+                        rendered += added;
                         that.async && that.trigger("asyncReceived", query);
                     }
                 }
